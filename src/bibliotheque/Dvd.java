@@ -13,12 +13,12 @@ public class Dvd extends Document implements Empruntable{
 
     @Override
     public void emprunter() {
-
+        emprunte= true;
     }
 
     @Override
     public void retourner() {
-
+        emprunte= false;
     }
 
     @Override

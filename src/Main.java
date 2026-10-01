@@ -1,13 +1,32 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-void main() {
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    IO.println(String.format("Hello and welcome!"));
+import bibliotheque.Catalogue;
+import bibliotheque.Dvd;
+import bibliotheque.Livre;
+import bibliotheque.Revue;
 
-    for (int i = 1; i <= 5; i++) {
-        //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-        // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-        IO.println("i = " + i);
-    }
+
+void main() {
+    Livre livre = new Livre( "Java pour débutants", "Introduction aux Java" );
+    Dvd dvd = new Dvd( "Inception", "Film de science-fiction" );
+    Revue revue = new Revue( "Science & Vie", "Magazine scientifique" );
+
+    System.out.println("===== DOCUMENTS =====");
+    System.out.println(livre.getTitre());
+    System.out.println(dvd.getTitre());
+    System.out.println(revue.getTitre());
+
+    System.out.println("\n===== EMPRUNT LIVRE =====");
+    System.out.println("Avant emprunt : " + livre.estEmprunte());
+    livre.emprunter();
+    System.out.println("Après emprunt : " + livre.estEmprunte());
+
+    System.out.println("\n===== RETOUR LIVRE =====");
+    livre.retourner();
+    System.out.println( "Après retour : " + livre.estEmprunte() );
+    
+    System.out.println("\n===== CATALOGUE LIVRES =====");
+    Catalogue<Livre> catalogueLivres = new Catalogue<>();
+    catalogueLivres.ajouter(livre);
+    catalogueLivres.ajouter( new Livre( "Programmation Java avancée", "Java niveau avancé" ) );
+    catalogueLivres.ajouter( new Livre( "Design Patterns", "Les patrons de conception" ) );
+    catalogueLivres.afficheTout();
 }
