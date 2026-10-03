@@ -7,8 +7,8 @@ public class Revue extends Document{
     }
 
     @Override
-    public String descreptioncourte() {
-        return "";
+    public String descriptionCourte() {
+        return "Revue #" + getId() + " : " + getTitre();
     }
 
 }

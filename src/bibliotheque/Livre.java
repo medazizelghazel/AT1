@@ -8,13 +8,19 @@ public class Livre extends Document implements Empruntable{
     }
 
     @Override
-    public String descreptioncourte() {
-        return "";
+    public String descriptionCourte() {
+        return "Livre #" + getId() + " : " + getTitre();
     }
 
     @Override
     public void emprunter() {
-        emprunte=true;
+        if (emprunte) {
+            throw new IllegalStateException(
+                    "Le livre est déjà emprunté."
+            );
+        }
+
+        emprunte = true;
 
     }
 
