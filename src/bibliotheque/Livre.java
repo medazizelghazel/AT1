@@ -13,15 +13,11 @@ public class Livre extends Document implements Empruntable{
     }
 
     @Override
-    public void emprunter() {
+    public void emprunter() throws DocumentIndisponibleException {
         if (emprunte) {
-            throw new IllegalStateException(
-                    "Le livre est déjà emprunté."
-            );
+            throw new DocumentIndisponibleException(getTitre());
         }
-
         emprunte = true;
-
     }
 
     @Override

@@ -1,244 +1,155 @@
+import bibliotheque.Bibliothecaire;
 import bibliotheque.Catalogue;
+import bibliotheque.Document;
+import bibliotheque.DocumentIndisponibleException;
+import bibliotheque.DocumentIntrouvableException;
 import bibliotheque.Dvd;
+import bibliotheque.EmpruntManager;
 import bibliotheque.Livre;
+import bibliotheque.MediathequeException;
+import bibliotheque.RapportEmprunts;
 import bibliotheque.Revue;
 
+void main() throws Exception {
 
-void main() {
+    Livre livre1 = new Livre("Java pour débutants", "Introduction à la programmation Java");
+    Livre livre2 = new Livre("Programmation Java avancée", "Java niveau avancé");
+    Dvd dvd1 = new Dvd("Inception", "Film de science-fiction");
+    Dvd dvd2 = new Dvd("The Matrix", "Film de science-fiction");
+    Revue revue1 = new Revue("Science & Vie", "Magazine scientifique");
+    Revue revue2 = new Revue("National Geographic", "Magazine sur la nature");
 
-    System.out.println("========== TEST 1 : DOCUMENTS ==========");
-
-    Livre livre1 = new Livre(
-            "Java pour débutants",
-            "Introduction à la programmation Java"
-    );
-
-    Livre livre2 = new Livre(
-            "Programmation Java avancée",
-            "Java niveau avancé"
-    );
-
-    Dvd dvd1 = new Dvd(
-            "Inception",
-            "Film de science-fiction"
-    );
-
-    Dvd dvd2 = new Dvd(
-            "The Matrix",
-            "Film de science-fiction"
-    );
-
-    Revue revue1 = new Revue(
-            "Science & Vie",
-            "Magazine scientifique"
-    );
-
-    Revue revue2 = new Revue(
-            "National Geographic",
-            "Magazine sur la nature"
-    );
-
+    System.out.println("========== DOCUMENTS ==========");
     System.out.println(livre1.descriptionCourte());
-    System.out.println(livre2.descriptionCourte());
     System.out.println(dvd1.descriptionCourte());
-    System.out.println(dvd2.descriptionCourte());
     System.out.println(revue1.descriptionCourte());
-    System.out.println(revue2.descriptionCourte());
+    verifier("ids uniques", livre1.getId() != livre2.getId() && livre2.getId() != dvd1.getId());
 
-    System.out.println("\n========== TEST 2 : ID ==========");
-
-    System.out.println("ID Livre 1 : " + livre1.getId());
-    System.out.println("ID Livre 2 : " + livre2.getId());
-    System.out.println("ID DVD 1   : " + dvd1.getId());
-    System.out.println("ID DVD 2   : " + dvd2.getId());
-    System.out.println("ID Revue 1 : " + revue1.getId());
-    System.out.println("ID Revue 2 : " + revue2.getId());
-
-
-    System.out.println("\n========== TEST 3 : EMPRUNT NOMINAL ==========");
-
-    System.out.println(
-            "Avant emprunt : " + livre1.estEmprunte()
-    );
-
+    System.out.println("\n========== EMPRUNT LIVRE ==========");
+    verifier("livre libre au départ", !livre1.estEmprunte());
     livre1.emprunter();
-
-    System.out.println(
-            "Après emprunt : " + livre1.estEmprunte()
-    );
-
-    System.out.println("\n========== TEST 4 : DOUBLE EMPRUNT ==========");
+    verifier("livre emprunté", livre1.estEmprunte());
 
     try {
-
         livre1.emprunter();
-
-        System.out.println(
-                "ERREUR : le double emprunt est accepté !"
-        );
-
-    } catch (IllegalStateException e) {
-
-        System.out.println(
-                "SUCCÈS : exception détectée."
-        );
-
-        System.out.println(
-                "Message : " + e.getMessage()
-        );
+        verifier("double emprunt refusé", false);
+    } catch (DocumentIndisponibleException e) {
+        verifier("double emprunt refusé", true);
+        verifier("message contient le titre", e.getMessage().contains("Java pour débutants"));
+        verifier("getTitre()", e.getTitre().equals("Java pour débutants"));
     }
-
-    System.out.println("\n========== TEST 5 : RETOUR ==========");
-
-    System.out.println(
-            "Avant retour : " + livre1.estEmprunte()
-    );
 
     livre1.retourner();
+    verifier("livre rendu", !livre1.estEmprunte());
+    livre1.emprunter();
+    verifier("réemprunt après retour", livre1.estEmprunte());
 
-    System.out.println(
-            "Après retour : " + livre1.estEmprunte()
-    );
-
-
-    System.out.println(
-            "\n========== TEST 6 : RÉEMPRUNT =========="
-    );
-
-    try {
-
-        livre1.emprunter();
-
-        System.out.println(
-                "SUCCÈS : le livre peut être réemprunté."
-        );
-
-        System.out.println(
-                "État : " + livre1.estEmprunte()
-        );
-
-    } catch (IllegalStateException e) {
-
-        System.out.println(
-                "ERREUR : impossible de réemprunter le livre."
-        );
-    }
-
-    System.out.println("\n========== TEST 7 : EMPRUNT DVD ==========");
-
+    System.out.println("\n========== EMPRUNT DVD ==========");
     dvd1.emprunter();
-
-    System.out.println(
-            dvd1.descriptionCourte()
-    );
-
-    System.out.println(
-            "DVD emprunté : " + dvd1.estEmprunte()
-    );
-
-    System.out.println(
-            "\n========== TEST 8 : DOUBLE EMPRUNT DVD =========="
-    );
-
+    verifier("dvd emprunté", dvd1.estEmprunte());
     try {
-
         dvd1.emprunter();
-
-        System.out.println(
-                "ERREUR : double emprunt accepté !"
-        );
-
-    } catch (IllegalStateException e) {
-
-        System.out.println(
-                "SUCCÈS : IllegalStateException détectée."
-        );
+        verifier("double emprunt dvd refusé", false);
+    } catch (DocumentIndisponibleException e) {
+        verifier("double emprunt dvd refusé", e.getMessage().contains("Inception"));
     }
 
-    System.out.println(
-            "\n========== TEST 9 : CATALOGUE LIVRES =========="
-    );
-
+    System.out.println("\n========== CATALOGUES ==========");
     Catalogue<Livre> catalogueLivres = new Catalogue<>();
-
     catalogueLivres.ajouter(livre1);
     catalogueLivres.ajouter(livre2);
-
     catalogueLivres.afficherTout();
 
-    System.out.println(
-            "\n========== TEST 10 : CATALOGUE DVD =========="
-    );
-
     Catalogue<Dvd> catalogueDvd = new Catalogue<>();
-
     catalogueDvd.ajouter(dvd1);
     catalogueDvd.ajouter(dvd2);
-
     catalogueDvd.afficherTout();
 
-
-    System.out.println(
-            "\n========== TEST 11 : CATALOGUE REVUES =========="
-    );
-
     Catalogue<Revue> catalogueRevues = new Catalogue<>();
-
     catalogueRevues.ajouter(revue1);
     catalogueRevues.ajouter(revue2);
-
     catalogueRevues.afficherTout();
 
+    System.out.println("\n========== RECHERCHE ==========");
+    verifier("titre trouvé", catalogueLivres.rechercherParTitre("Java pour débutants").isPresent());
+    verifier("casse ignorée", catalogueLivres.rechercherParTitre("JAVA POUR DÉBUTANTS").isPresent());
+    verifier("titre absent", catalogueLivres.rechercherParTitre("Python").isEmpty());
 
-    System.out.println(
-            "\n========== TEST 12 : RECHERCHE =========="
-    );
+    System.out.println("\n========== EMPRUNT MANAGER ==========");
+    Catalogue<Document> catalogue = new Catalogue<>();
+    catalogue.ajouter(new Livre("Dune", "Science-fiction"));
+    catalogue.ajouter(new Dvd("Alien", "Film d'horreur"));
+    catalogue.ajouter(new Revue("Wired", "Magazine tech"));
+    EmpruntManager manager = new EmpruntManager(catalogue);
 
-    catalogueLivres
-            .rechercherParTitre("Java pour débutants")
-            .ifPresentOrElse(
+    manager.emprunter("Dune");
+    verifier("emprunt par titre", true);
 
-                    document -> System.out.println(
-                            "Document trouvé : "
-                                    + document.descriptionCourte()
-                    ),
+    try {
+        manager.emprunter("Dune");
+        verifier("déjà emprunté", false);
+    } catch (DocumentIndisponibleException e) {
+        verifier("déjà emprunté", e.getMessage().contains("Dune"));
+    }
 
-                    () -> System.out.println(
-                            "Document introuvable."
-                    )
-            );
+    try {
+        manager.emprunter("Inconnu");
+        verifier("titre introuvable", false);
+    } catch (DocumentIntrouvableException e) {
+        verifier("titre introuvable", e.getMessage().contains("Inconnu"));
+    }
 
+    try {
+        manager.emprunter("Wired");
+        verifier("revue non empruntable", false);
+    } catch (DocumentIndisponibleException e) {
+        verifier("revue non empruntable", e.getMessage().contains("Wired"));
+    }
 
-    System.out.println(
-            "\n========== TEST 13 : RECHERCHE INFRUCTUEUSE =========="
-    );
+    manager.emprunter("Alien");
+    verifier("dvd empruntable via manager", true);
 
-    catalogueLivres
-            .rechercherParTitre("Python")
-            .ifPresentOrElse(
+    System.out.println("\n========== EXCEPTIONS ==========");
+    Throwable cause = new RuntimeException("racine");
+    DocumentIndisponibleException chaine = new DocumentIndisponibleException("Dune", cause);
+    verifier("cause chaînée", chaine.getCause() == cause);
+    verifier("catch via la classe mère", attrapeParLaMere(manager));
 
-                    document -> System.out.println(
-                            "Document trouvé : "
-                                    + document.descriptionCourte()
-                    ),
+    System.out.println("\n========== BIBLIOTHECAIRE ==========");
+    Catalogue<Document> catalogueBiblio = new Catalogue<>();
+    Bibliothecaire biblio = new Bibliothecaire("Sarah", catalogueBiblio);
+    biblio.accueillir();
+    biblio.enregistrer(livre2);
+    verifier("document enregistré", biblio.chercher("Programmation Java avancée").isPresent());
+    verifier("document absent", biblio.chercher("Rien").isEmpty());
+    verifier("catalogue partagé", catalogueBiblio.rechercherParTitre("Programmation Java avancée").isPresent());
 
-                    () -> System.out.println(
-                            "SUCCÈS : Document introuvable."
-                    )
-            );
+    System.out.println("\n========== RAPPORT ==========");
+    Catalogue<Document> catalogueRapport = new Catalogue<>();
+    catalogueRapport.ajouter(new Livre("Clean Code", "Bonnes pratiques"));
+    EmpruntManager managerRapport = new EmpruntManager(catalogueRapport);
 
-    System.out.println(
-            "\n========== TEST 14 : REVUE =========="
-    );
+    try (RapportEmprunts rapport = new RapportEmprunts()) {
+        managerRapport.emprunter("Clean Code");
+        rapport.noter("Clean Code");
+        managerRapport.emprunter("Clean Code");
+        rapport.noter("jamais atteint");
+    } catch (MediathequeException e) {
+        System.out.println("Erreur : " + e.getMessage());
+    }
 
-    System.out.println(
-            revue1.descriptionCourte()
-    );
+    System.out.println("\n========== TERMINÉ ==========");
+}
 
-    System.out.println(
-            "Une revue est consultée sur place."
-    );
+void verifier(String nom, boolean condition) {
+    System.out.println((condition ? "[OK]    " : "[ECHEC] ") + nom);
+}
 
-
-    System.out.println("\n========== TOUS LES TESTS TERMINÉS ==========");
+boolean attrapeParLaMere(EmpruntManager manager) {
+    try {
+        manager.emprunter("Dune");
+        return false;
+    } catch (MediathequeException e) {
+        return true;
+    }
 }

@@ -1,7 +1,7 @@
 package bibliotheque;
 
 public interface Empruntable {
-    void emprunter();
+    void emprunter() throws DocumentIndisponibleException;
 
     void retourner();
 
