@@ -5,9 +5,6 @@ import bibliotheque.Revue;
 
 
 void main() {
-    // ==========================================
-    // TEST 1 : Création des documents + ID
-    // ==========================================
 
     System.out.println("========== TEST 1 : DOCUMENTS ==========");
 
@@ -48,11 +45,6 @@ void main() {
     System.out.println(revue1.descriptionCourte());
     System.out.println(revue2.descriptionCourte());
 
-
-    // ==========================================
-    // TEST 2 : Vérification des ID
-    // ==========================================
-
     System.out.println("\n========== TEST 2 : ID ==========");
 
     System.out.println("ID Livre 1 : " + livre1.getId());
@@ -62,10 +54,6 @@ void main() {
     System.out.println("ID Revue 1 : " + revue1.getId());
     System.out.println("ID Revue 2 : " + revue2.getId());
 
-
-    // ==========================================
-    // TEST 3 : Emprunt nominal
-    // ==========================================
 
     System.out.println("\n========== TEST 3 : EMPRUNT NOMINAL ==========");
 
@@ -78,11 +66,6 @@ void main() {
     System.out.println(
             "Après emprunt : " + livre1.estEmprunte()
     );
-
-
-    // ==========================================
-    // TEST 4 : Double emprunt
-    // ==========================================
 
     System.out.println("\n========== TEST 4 : DOUBLE EMPRUNT ==========");
 
@@ -105,11 +88,6 @@ void main() {
         );
     }
 
-
-    // ==========================================
-    // TEST 5 : Retour du livre
-    // ==========================================
-
     System.out.println("\n========== TEST 5 : RETOUR ==========");
 
     System.out.println(
@@ -122,10 +100,6 @@ void main() {
             "Après retour : " + livre1.estEmprunte()
     );
 
-
-    // ==========================================
-    // TEST 6 : Réemprunt après retour
-    // ==========================================
 
     System.out.println(
             "\n========== TEST 6 : RÉEMPRUNT =========="
@@ -150,11 +124,6 @@ void main() {
         );
     }
 
-
-    // ==========================================
-    // TEST 7 : Emprunt DVD
-    // ==========================================
-
     System.out.println("\n========== TEST 7 : EMPRUNT DVD ==========");
 
     dvd1.emprunter();
@@ -166,11 +135,6 @@ void main() {
     System.out.println(
             "DVD emprunté : " + dvd1.estEmprunte()
     );
-
-
-    // ==========================================
-    // TEST 8 : Double emprunt DVD
-    // ==========================================
 
     System.out.println(
             "\n========== TEST 8 : DOUBLE EMPRUNT DVD =========="
@@ -191,11 +155,6 @@ void main() {
         );
     }
 
-
-    // ==========================================
-    // TEST 9 : Catalogue de livres
-    // ==========================================
-
     System.out.println(
             "\n========== TEST 9 : CATALOGUE LIVRES =========="
     );
@@ -206,11 +165,6 @@ void main() {
     catalogueLivres.ajouter(livre2);
 
     catalogueLivres.afficherTout();
-
-
-    // ==========================================
-    // TEST 10 : Catalogue DVD
-    // ==========================================
 
     System.out.println(
             "\n========== TEST 10 : CATALOGUE DVD =========="
@@ -224,10 +178,6 @@ void main() {
     catalogueDvd.afficherTout();
 
 
-    // ==========================================
-    // TEST 11 : Catalogue revues
-    // ==========================================
-
     System.out.println(
             "\n========== TEST 11 : CATALOGUE REVUES =========="
     );
@@ -239,10 +189,6 @@ void main() {
 
     catalogueRevues.afficherTout();
 
-
-    // ==========================================
-    // TEST 12 : Recherche réussie
-    // ==========================================
 
     System.out.println(
             "\n========== TEST 12 : RECHERCHE =========="
@@ -263,10 +209,6 @@ void main() {
             );
 
 
-    // ==========================================
-    // TEST 13 : Recherche infructueuse
-    // ==========================================
-
     System.out.println(
             "\n========== TEST 13 : RECHERCHE INFRUCTUEUSE =========="
     );
@@ -285,11 +227,6 @@ void main() {
                     )
             );
 
-
-    // ==========================================
-    // TEST 14 : Vérification Revue
-    // ==========================================
-
     System.out.println(
             "\n========== TEST 14 : REVUE =========="
     );
@@ -302,10 +239,6 @@ void main() {
             "Une revue est consultée sur place."
     );
 
-
-    // ==========================================
-    // FIN
-    // ==========================================
 
     System.out.println("\n========== TOUS LES TESTS TERMINÉS ==========");
 }
