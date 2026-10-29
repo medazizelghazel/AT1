@@ -1,10 +1,12 @@
 package bibliotheque;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class Catalogue<T extends Document> {
+public class Catalogue<T extends Document> implements Iterable<T> {
 
     private final List<T> documents = new ArrayList<>();
 
@@ -22,19 +24,14 @@ public class Catalogue<T extends Document> {
                 .findFirst();
     }
 
-    // Afficher tous les documents
-    public void afficherTout() {
-        if (documents.isEmpty()) {
-            System.out.println("Le catalogue est vide.");
-            return;
-        }
+    // Indique si le catalogue est vide
+    public boolean estVide() {
+        return documents.isEmpty();
+    }
 
-        for (T document : documents) {
-            System.out.println(
-                    "ID : " + document.getId()
-                            + " | "
-                            + document.descriptionCourte()
-            );
-        }
+    // Iterator : permet le for-each côté client
+    @Override
+    public Iterator<T> iterator() {
+        return Collections.unmodifiableList(documents).iterator();
     }
 }

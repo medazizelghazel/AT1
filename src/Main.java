@@ -58,17 +58,18 @@ void main() throws Exception {
     Catalogue<Livre> catalogueLivres = new Catalogue<>();
     catalogueLivres.ajouter(livre1);
     catalogueLivres.ajouter(livre2);
-    catalogueLivres.afficherTout();
+    afficher(catalogueLivres);
 
     Catalogue<Dvd> catalogueDvd = new Catalogue<>();
     catalogueDvd.ajouter(dvd1);
     catalogueDvd.ajouter(dvd2);
-    catalogueDvd.afficherTout();
+    afficher(catalogueLivres);
 
     Catalogue<Revue> catalogueRevues = new Catalogue<>();
     catalogueRevues.ajouter(revue1);
     catalogueRevues.ajouter(revue2);
-    catalogueRevues.afficherTout();
+    afficher(catalogueLivres);
+
 
     System.out.println("\n========== RECHERCHE ==========");
     verifier("titre trouvé", catalogueLivres.rechercherParTitre("Java pour débutants").isPresent());
@@ -143,6 +144,14 @@ void main() throws Exception {
 
 void verifier(String nom, boolean condition) {
     System.out.println((condition ? "[OK]    " : "[ECHEC] ") + nom);
+}
+void afficher(Catalogue<? extends Document> catalogue) {
+    if (catalogue.estVide()) {
+        System.out.println("Le catalogue est vide.");
+    }
+    for (Document d : catalogue) {
+        System.out.println("ID : " + d.getId() + " | " + d.descriptionCourte());
+    }
 }
 
 boolean attrapeParLaMere(EmpruntManager manager) {
