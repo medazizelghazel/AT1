@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Catalogue<T extends Document> implements Iterable<T> {
 
@@ -33,5 +34,8 @@ public class Catalogue<T extends Document> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
         return Collections.unmodifiableList(documents).iterator();
+    }
+    public Stream<T> stream() {
+        return documents.stream();
     }
 }
